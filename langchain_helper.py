@@ -43,5 +43,44 @@ def create_vector_db_from_youtube_url(video_url: str) -> FAISS:
     return db
 
 
-video_url = "https://youtu.be/A9W6FAQPVuA?si=qshtmH3E_ah9QvbT"
-print(create_vector_db_from_youtube_url(video_url))
+def get_response_from_query(db, query, k = 4):
+    # Search the query-relevant documents
+    docs = db.similarity_search(query, k = k)
+
+    # Combine the page content of the retrieved documents into a single string
+    docs_page_content = " ".join([d.page_content for d in docs])
+
+    # Initialize the OpenAI language model with specific parameters
+    llm_OpenAI = OpenAI(temperature = 0.8)
+
+    # Define the prompt template for the language model
+    prompt_template = PromptTemplate(
+        input_variables = ['question', 'docs'],
+        template = """
+        You are a helpful YouTube assistant that can answer questions about videos based on the video's transcript.
+
+        Answer the following question: {question}
+        By searching the following video transcript: {docs}
+
+        Only use the factual information from the transcript to answer the question.
+
+        If you feel like you don't have enough information to answer the question, say "I don't know".
+
+        Your answers should be detailed.
+        """
+    )
+
+    # Create a language model chain with the defined prompt template
+    chain = LLMChain(llm = llm_OpenAI, prompt = prompt_template)
+
+    # Generate the response using the language model chain
+    response = chain.run(question = query, docs = docs_page_content)
+    response = response.replace("\n", "")
+
+    return response
+
+
+video_url = "https://www.youtube.com/watch?v=POkPq1XLr4I&t=15s"
+db = create_vector_db_from_youtube_url(video_url)
+query = "How will the verdict affect Trump in this election"
+print(get_response_from_query(db, query))
