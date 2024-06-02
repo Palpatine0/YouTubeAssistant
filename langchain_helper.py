@@ -78,9 +78,3 @@ def get_response_from_query(db, query, k = 4):
     response = response.replace("\n", "")
 
     return response
-
-
-video_url = "https://www.youtube.com/watch?v=POkPq1XLr4I&t=15s"
-db = create_vector_db_from_youtube_url(video_url)
-query = "How will the verdict affect Trump in this election"
-print(get_response_from_query(db, query))
