@@ -1,3 +1,15 @@
+# YouTube Assistant
+
+## Objective
+In this lab, we will build a "YouTube Assistant" application using LangChain for language model interactions and Streamlit for the web interface. This project leverages LangChain's powerful capabilities to process and interact with the content of YouTube videos. By combining various components and features of LangChain, such as document loaders, text splitters, and vector stores, we will create an assistant capable of answering questions about a specific YouTube video.
+
+## Prerequisites
+Before starting, ensure you have the following installed on your system:
+- Python 3.7 or higher
+- pip (Python package installer)
+- Git (optional)
+ 
+
 ### Step 1: Initial Setup
 #### 1. Environment Setup
 To start, we need to manage sensitive information such as API keys securely. Using a `.env` file is a standard practice for this purpose.
