@@ -12,8 +12,7 @@ from langchain.document_loaders import YoutubeLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # Module to create and manage vector stores using FAISS.
 from langchain.vectorstores import FAISS
-# Module to generating text embeddings using OpenAI's models
-from langchain_community.embeddings import OpenAIEmbeddings
+
 
 # Loading environment variables from a .env file.
 load_dotenv()
@@ -78,3 +77,4 @@ def get_response_from_query(db, query, k = 4):
     response = response.replace("\n", "")
 
     return response
+
