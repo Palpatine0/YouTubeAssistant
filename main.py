@@ -21,4 +21,4 @@ if query and youtube_url:
     db = lch.create_vector_db_from_youtube_url(youtube_url)
     response = lch.get_response_from_query(db, query)
     st.subheader("Response:")
-    st.text(textwrap.fill(response, width = 100))
+    st.text(textwrap.fill(response, width = 80))
