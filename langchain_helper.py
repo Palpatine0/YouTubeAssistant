@@ -12,6 +12,8 @@ from langchain.document_loaders import YoutubeLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 # Module to create and manage vector stores using FAISS.
 from langchain.vectorstores import FAISS
+# Module to generating text embeddings using OpenAI's models
+from langchain_community.embeddings import OpenAIEmbeddings
 
 
 # Loading environment variables from a .env file.
@@ -50,7 +52,7 @@ def get_response_from_query(db, query, k = 4):
     docs_page_content = " ".join([d.page_content for d in docs])
 
     # Initialize the OpenAI language model with specific parameters
-    llm_OpenAI = OpenAI(temperature = 0.8)
+    llm_OpenAI = OpenAI(temperature = 0.8, openai_api_key = openai_api_key)
 
     # Define the prompt template for the language model
     prompt_template = PromptTemplate(

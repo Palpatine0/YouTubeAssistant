@@ -5,7 +5,7 @@ In this lab, we will build a "YouTube Assistant" application using LangChain for
 
 ## Prerequisites
 Before starting, ensure you have the following installed on your system:
-- Python 3.7 or higher
+- Python 3.8 or higher
 - pip (Python package installer)
 - Git (optional)
  
