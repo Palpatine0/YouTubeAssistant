@@ -52,7 +52,7 @@ def get_response_from_query(db, query, k = 4):
     docs_page_content = " ".join([d.page_content for d in docs])
 
     # Initialize the OpenAI language model with specific parameters
-    llm_OpenAI = OpenAI(temperature = 0.8, openai_api_key = openai_api_key)
+    llm_OpenAI = OpenAI(temperature = 0.8)
 
     # Define the prompt template for the language model
     prompt_template = PromptTemplate(
