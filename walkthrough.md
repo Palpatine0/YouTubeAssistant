@@ -1,21 +1,30 @@
 # YouTube Assistant
 
 ## Objective
-In this lab, we will build a "YouTube Assistant" application using LangChain for language model interactions and Streamlit for the web interface. This project leverages LangChain's powerful capabilities to process and interact with the content of YouTube videos. By combining various components and features of LangChain, such as document loaders, text splitters, and vector stores, we will create an assistant capable of answering questions about a specific YouTube video.
+
+In this lab, we will build a "YouTube Assistant" application using LangChain for language model interactions and
+Streamlit for the web interface. This project leverages LangChain's powerful capabilities to process and interact with
+the content of YouTube videos. By combining various components and features of LangChain, such as document loaders, text
+splitters, and vector stores, we will create an assistant capable of answering questions about a specific YouTube video.
 
 ## Prerequisites
+
 Before starting, ensure you have the following installed on your system:
+
 - Python 3.8 or higher
 - pip (Python package installer)
 - Git (optional)
- 
 
 ### Step 1: Initial Setup
+
 #### 1. Environment Setup
-To start, we need to manage sensitive information such as API keys securely. Using a `.env` file is a standard practice for this purpose.
+
+To start, we need to manage sensitive information such as API keys securely. Using a `.env` file is a standard practice
+for this purpose.
 
 1. **Create a `.env` file:**
-   - This file will store your OpenAI API key. Ensure it is included in your `.gitignore` file to prevent it from being committed to your repository.
+    - This file will store your OpenAI API key. Ensure it is included in your `.gitignore` file to prevent it from being
+      committed to your repository.
 
    Example `.env` file:
    ```plaintext
@@ -23,7 +32,9 @@ To start, we need to manage sensitive information such as API keys securely. Usi
    ```
 
 2. **Install required packages:**
-   - We need several packages for our project: `langchain`, `openai`, `streamlit`, `python-dotenv`, `langchain_community`, `youtube-transcript-api`, `tiktoken`, and `faiss-cpu`.
+    - We need several packages for our
+      project: `langchain`, `openai`, `streamlit`, `python-dotenv`, `langchain_community`, `youtube-transcript-api`, `tiktoken`,
+      and `faiss-cpu`.
 
    Commands:
    ```bash
@@ -47,10 +58,11 @@ To start, we need to manage sensitive information such as API keys securely. Usi
    ```
 
 #### 2. Main Python Script and Helper Module
+
 In the initial setup, we set up the main Python script and a helper module.
 
 1. **Create `langchain_helper.py`:**
-   - This script will contain the initial setup and import necessary modules.
+    - This script will contain the initial setup and import necessary modules.
 
    ```python
    # Module to use OpenAI language models.
@@ -78,7 +90,8 @@ In the initial setup, we set up the main Python script and a helper module.
    ```
 
 2. **Create `main.py`:**
-   - This script will serve as the entry point for our application. For now, it will be empty but ready for future additions.
+    - This script will serve as the entry point for our application. For now, it will be empty but ready for future
+      additions.
 
    ```python
    # main.py
@@ -87,10 +100,14 @@ In the initial setup, we set up the main Python script and a helper module.
 #### Key Concepts
 
 ##### 1. Environment Variables
-- **Definition:** Environment variables are dynamic values that can affect the way running processes will behave on a computer.
-- **Usage:** They are used to store configuration settings and sensitive data (like API keys) separately from the codebase.
+
+- **Definition:** Environment variables are dynamic values that can affect the way running processes will behave on a
+  computer.
+- **Usage:** They are used to store configuration settings and sensitive data (like API keys) separately from the
+  codebase.
 
 ##### 2. `dotenv` Library
+
 - **Purpose:** The `dotenv` library reads key-value pairs from a `.env` file and can set them as environment variables.
 - **Installation:** Use `pip install python-dotenv` to install the library.
 - **Usage in Code:**
@@ -100,7 +117,9 @@ In the initial setup, we set up the main Python script and a helper module.
   ```
 
 ##### 3. OpenAI Embeddings
-- **Definition:** OpenAI embeddings are numerical representations of text that capture its semantic meaning, which can be used for various NLP tasks like similarity search, clustering, and more.
+
+- **Definition:** OpenAI embeddings are numerical representations of text that capture its semantic meaning, which can
+  be used for various NLP tasks like similarity search, clustering, and more.
 - **Usage:** The `OpenAIEmbeddings` class from LangChain generates embeddings for text data.
 - **Example:**
   ```python
@@ -110,6 +129,7 @@ In the initial setup, we set up the main Python script and a helper module.
   ```
 
 ##### 4. Other Components
+
 - **OpenAI Language Models:** Used for processing and generating text.
 - **Prompt Templates:** Predefined structures for formatting inputs to the language model.
 - **LLM Chains:** Links between language models and prompt templates.
@@ -117,15 +137,15 @@ In the initial setup, we set up the main Python script and a helper module.
 - **Text Splitters:** Tools for dividing text into manageable chunks.
 - **FAISS Vector Stores:** Libraries for creating and managing vector stores for efficient similarity search.
 
-
 ### Step 2: Add YouTube Video Processing and Vector Store Creation
 
 #### Helper Module
+
 In this step, we add functionality to process YouTube videos and create FAISS vector stores from their transcripts.
 
 1. **Update `langchain_helper.py`:**
-   - Add the `create_vector_db_from_youtube_url` function to process YouTube videos.
-   - Create a FAISS vector store from the video transcripts.
+    - Add the `create_vector_db_from_youtube_url` function to process YouTube videos.
+    - Create a FAISS vector store from the video transcripts.
 
    Updated `langchain_helper.py`:
    ```python
@@ -169,12 +189,13 @@ In this step, we add functionality to process YouTube videos and create FAISS ve
    print(create_vector_db_from_youtube_url(video_url))
    ```
    Run the script for testing and u should found that u got the vector DB
-   
+
    <img style="height: 200px" src="https://i.imghippo.com/files/LFash1717260729.png" alt="" border="0">
 
 #### Key Concepts
 
 ##### 1. YouTube Video Processing
+
 - **Definition:** This involves loading and processing transcripts of YouTube videos to extract and manage the content.
 - **Usage:** The `YoutubeLoader` class from LangChain is used to fetch transcripts from YouTube videos.
 - **Example:**
@@ -184,8 +205,10 @@ In this step, we add functionality to process YouTube videos and create FAISS ve
   ```
 
 ##### 2. Text Splitting
+
 - **Definition:** Splitting large chunks of text into smaller, manageable pieces.
-- **Usage:** The `RecursiveCharacterTextSplitter` class from LangChain splits the video transcript into smaller chunks for better processing.
+- **Usage:** The `RecursiveCharacterTextSplitter` class from LangChain splits the video transcript into smaller chunks
+  for better processing.
 - **Example:**
   ```python
   text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
@@ -193,7 +216,9 @@ In this step, we add functionality to process YouTube videos and create FAISS ve
   ```
 
 ##### 3. FAISS Vector Stores
-- **Definition:** FAISS (Facebook AI Similarity Search) is a library for efficient similarity search and clustering of dense vectors.
+
+- **Definition:** FAISS (Facebook AI Similarity Search) is a library for efficient similarity search and clustering of
+  dense vectors.
 - **Usage:** The `FAISS` class from LangChain is used to create a vector store from the document chunks.
 - **Example:**
   ```python
@@ -201,21 +226,23 @@ In this step, we add functionality to process YouTube videos and create FAISS ve
   ```
 
 ##### 4. OpenAI Embeddings
-- **Definition:** OpenAI embeddings are numerical representations of text that capture its semantic meaning, used for various NLP tasks like similarity search, clustering, and more.
+
+- **Definition:** OpenAI embeddings are numerical representations of text that capture its semantic meaning, used for
+  various NLP tasks like similarity search, clustering, and more.
 - **Usage:** The `OpenAIEmbeddings` class from LangChain generates embeddings for text data.
 - **Example:**
   ```python
   embeddings = OpenAIEmbeddings()
   ```
 
-
 ### Step 3: Add Querying Functionality
 
 #### Helper Module
+
 In this step, we add a function to query the FAISS vector store and generate responses using OpenAI.
 
 1. **Update `langchain_helper.py`:**
-   - Add the `get_response_from_query` function to query the FAISS vector store and generate responses.
+    - Add the `get_response_from_query` function to query the FAISS vector store and generate responses.
 
    Updated `langchain_helper.py`:
    ```python
@@ -294,13 +321,14 @@ In this step, we add a function to query the FAISS vector store and generate res
    video_url = "https://youtu.be/A9W6FAQPVuA?si=qshtmH3E_ah9QvbT"
    print(create_vector_db_from_youtube_url(video_url))
    ```
-   
-    Run the script for testing
-    <img src="https://i.imghippo.com/files/Ab4FO1717315223.png" alt="" border="0"> 
+
+   Run the script for testing
+   <img src="https://i.imghippo.com/files/Ab4FO1717315223.png" alt="" border="0">
 
 #### Key Concepts
 
 ##### 1. Querying Vector Stores
+
 - **Definition:** Querying vector stores involves searching for documents that are most similar to a given query.
 - **Usage:** The `similarity_search` method of the `FAISS` class is used to find documents that match the query.
 - **Example:**
@@ -309,7 +337,9 @@ In this step, we add a function to query the FAISS vector store and generate res
   ```
 
 ##### 2. Combining Document Content
-- **Definition:** Combining document content involves merging the text content of multiple documents into a single string for further processing.
+
+- **Definition:** Combining document content involves merging the text content of multiple documents into a single
+  string for further processing.
 - **Usage:** The page content of the retrieved documents is concatenated into a single string.
 - **Example:**
   ```python
@@ -317,8 +347,11 @@ In this step, we add a function to query the FAISS vector store and generate res
   ```
 
 ##### 3. Prompt Templates for Query Responses
-- **Definition:** A prompt template defines the structure and content of the input provided to the language model to generate a response.
-- **Usage:** The `PromptTemplate` class from LangChain creates templates for generating responses based on the query and document content.
+
+- **Definition:** A prompt template defines the structure and content of the input provided to the language model to
+  generate a response.
+- **Usage:** The `PromptTemplate` class from LangChain creates templates for generating responses based on the query and
+  document content.
 - **Example:**
   ```python
   prompt_template = PromptTemplate(
@@ -339,23 +372,25 @@ In this step, we add a function to query the FAISS vector store and generate res
   ```
 
 ##### 4. Generating Responses with LLM Chains
+
 - **Definition:** An LLM chain links a language model with a prompt template to generate responses.
-- **Usage:** The `LLMChain` class from LangChain creates a chain to generate a response based on the query and document content.
+- **Usage:** The `LLMChain` class from LangChain creates a chain to generate a response based on the query and document
+  content.
 - **Example:**
   ```python
   name_chain = LLMChain(llm=llm_OpenAI, prompt=prompt_template)
   response = name_chain({'question': query, 'docs': docs_page_content})
   ```
 
-
-
 ### Step 4: Add YouTube Video Processing and Vector Store Creation (Refined)
 
 #### Helper Module
-In this step, we refine the functionality to process YouTube videos and create FAISS vector stores from their transcripts.
+
+In this step, we refine the functionality to process YouTube videos and create FAISS vector stores from their
+transcripts.
 
 1. **Update `langchain_helper.py`:**
-   - Refine the `create_vector_db_from_youtube_url` function to process YouTube videos and create FAISS vector stores.
+    - Refine the `create_vector_db_from_youtube_url` function to process YouTube videos and create FAISS vector stores.
 
    Updated `langchain_helper.py`:
    ```python
@@ -402,6 +437,7 @@ In this step, we refine the functionality to process YouTube videos and create F
 #### Key Concepts
 
 ##### 1. YouTube Video Processing
+
 - **Definition:** This involves loading and processing transcripts of YouTube videos to extract and manage the content.
 - **Usage:** The `YoutubeLoader` class from LangChain is used to fetch transcripts from YouTube videos.
 - **Example:**
@@ -411,8 +447,10 @@ In this step, we refine the functionality to process YouTube videos and create F
   ```
 
 ##### 2. Text Splitting
+
 - **Definition:** Splitting large chunks of text into smaller, manageable pieces.
-- **Usage:** The `RecursiveCharacterTextSplitter` class from LangChain splits the video transcript into smaller chunks for better processing.
+- **Usage:** The `RecursiveCharacterTextSplitter` class from LangChain splits the video transcript into smaller chunks
+  for better processing.
 - **Example:**
   ```python
   text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
@@ -420,7 +458,9 @@ In this step, we refine the functionality to process YouTube videos and create F
   ```
 
 ##### 3. FAISS Vector Stores
-- **Definition:** FAISS (Facebook AI Similarity Search) is a library for efficient similarity search and clustering of dense vectors.
+
+- **Definition:** FAISS (Facebook AI Similarity Search) is a library for efficient similarity search and clustering of
+  dense vectors.
 - **Usage:** The `FAISS` class from LangChain is used to create a vector store from the document chunks.
 - **Example:**
   ```python
@@ -428,20 +468,24 @@ In this step, we refine the functionality to process YouTube videos and create F
   ```
 
 ##### 4. OpenAI Embeddings
-- **Definition:** OpenAI embeddings are numerical representations of text that capture its semantic meaning, used for various NLP tasks like similarity search, clustering, and more.
+
+- **Definition:** OpenAI embeddings are numerical representations of text that capture its semantic meaning, used for
+  various NLP tasks like similarity search, clustering, and more.
 - **Usage:** The `OpenAIEmbeddings` class from LangChain generates embeddings for text data.
 - **Example:**
   ```python
   embeddings = OpenAIEmbeddings()
   ```
+
 ### Step 5: Add Querying Functionality for FAISS Vector Stores
 
 #### Helper Module
+
 In this step, we add the functionality to query the FAISS vector store and generate responses using OpenAI.
 
 1. **Update `langchain_helper.py`:**
-   - Add the `get_response_from_query` function to query the FAISS vector store and generate responses using OpenAI.
-   - Include a test case for processing a YouTube video and querying its content.
+    - Add the `get_response_from_query` function to query the FAISS vector store and generate responses using OpenAI.
+    - Include a test case for processing a YouTube video and querying its content.
 
    Updated `langchain_helper.py`:
    ```python
@@ -526,6 +570,7 @@ In this step, we add the functionality to query the FAISS vector store and gener
 #### Key Concepts
 
 ##### 1. Querying Vector Stores
+
 - **Definition:** Querying vector stores involves searching for documents that are most similar to a given query.
 - **Usage:** The `similarity_search` method of the `FAISS` class is used to find documents that match the query.
 - **Example:**
@@ -534,7 +579,9 @@ In this step, we add the functionality to query the FAISS vector store and gener
   ```
 
 ##### 2. Combining Document Content
-- **Definition:** Combining document content involves merging the text content of multiple documents into a single string for further processing.
+
+- **Definition:** Combining document content involves merging the text content of multiple documents into a single
+  string for further processing.
 - **Usage:** The page content of the retrieved documents is concatenated into a single string.
 - **Example:**
   ```python
@@ -542,8 +589,11 @@ In this step, we add the functionality to query the FAISS vector store and gener
   ```
 
 ##### 3. Prompt Templates for Query Responses
-- **Definition:** A prompt template defines the structure and content of the input provided to the language model to generate a response.
-- **Usage:** The `PromptTemplate` class from LangChain creates templates for generating responses based on the query and document content.
+
+- **Definition:** A prompt template defines the structure and content of the input provided to the language model to
+  generate a response.
+- **Usage:** The `PromptTemplate` class from LangChain creates templates for generating responses based on the query and
+  document content.
 - **Example:**
   ```python
   prompt_template = PromptTemplate(
@@ -564,8 +614,10 @@ In this step, we add the functionality to query the FAISS vector store and gener
   ```
 
 ##### 4. Generating Responses with LLM Chains
+
 - **Definition:** An LLM chain links a language model with a prompt template to generate responses.
-- **Usage:** The `LLMChain` class from LangChain creates a chain to generate a response based on the query and document content.
+- **Usage:** The `LLMChain` class from LangChain creates a chain to generate a response based on the query and document
+  content.
 - **Example:**
   ```python
   chain = LLMChain(llm=llm_OpenAI, prompt=prompt_template)
@@ -575,10 +627,11 @@ In this step, we add the functionality to query the FAISS vector store and gener
 ### Step 6: Add YouTube Assistant Interface and Query Processing
 
 #### Helper Module
+
 In this step, we integrate the `get_response_from_query` function and remove the test case for cleaner code.
 
 1. **Update `langchain_helper.py`:**
-   - Ensure `get_response_from_query` function is included and remove the test case.
+    - Ensure `get_response_from_query` function is included and remove the test case.
 
    Updated `langchain_helper.py`:
    ```python
@@ -656,10 +709,12 @@ In this step, we integrate the `get_response_from_query` function and remove the
    ```
 
 #### Main Python Script
-We create the main Python script with a Streamlit interface for inputting YouTube video URLs and queries, integrating the functionality to process YouTube URLs and display responses based on video transcripts.
+
+We create the main Python script with a Streamlit interface for inputting YouTube video URLs and queries, integrating
+the functionality to process YouTube URLs and display responses based on video transcripts.
 
 1. **Create `main.py`:**
-   - Set up the Streamlit interface for the YouTube Assistant.
+    - Set up the Streamlit interface for the YouTube Assistant.
 
    New `main.py`:
    ```python
@@ -688,8 +743,8 @@ We create the main Python script with a Streamlit interface for inputting YouTub
        st.subheader("Response:")
        st.text(textwrap.fill(response, width=100))
    ```
-   
-    Boot the streamlit
+
+   Boot the streamlit
     ```bash
     streamlit run main.py    
     ```
@@ -698,7 +753,9 @@ We create the main Python script with a Streamlit interface for inputting YouTub
 #### Key Concepts
 
 ##### 1. Streamlit Interface
-- **Definition:** Streamlit is an open-source app framework for Machine Learning and Data Science projects. It allows you to create and share custom web apps for your machine learning projects.
+
+- **Definition:** Streamlit is an open-source app framework for Machine Learning and Data Science projects. It allows
+  you to create and share custom web apps for your machine learning projects.
 - **Usage:** We use Streamlit to create an interactive interface for inputting YouTube video URLs and queries.
 - **Example:**
   ```python
@@ -708,6 +765,7 @@ We create the main Python script with a Streamlit interface for inputting YouTub
   ```
 
 ##### 2. Form Handling in Streamlit
+
 - **Definition:** Forms in Streamlit allow for organized user input handling and submission.
 - **Usage:** We use forms to take YouTube URLs and queries from the user.
 - **Example:**
@@ -720,8 +778,10 @@ We create the main Python script with a Streamlit interface for inputting YouTub
   ```
 
 ##### 3. Integrating LangChain Functions
+
 - **Definition:** Integrating LangChain functions allows for processing YouTube URLs and querying their content.
-- **Usage:** We call the `create_vector_db_from_youtube_url` and `get_response_from_query` functions to handle video processing and querying.
+- **Usage:** We call the `create_vector_db_from_youtube_url` and `get_response_from_query` functions to handle video
+  processing and querying.
 - **Example:**
   ```python
   db = lch.create_vector_db_from_youtube_url(youtube_url)
